@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUREUM | Elite Digital Assets</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --gold:#d4af37;
+    --gold2:#f6d365;
+    --bg:#050505;
+    --card:rgba(255,255,255,0.05);
+    --border:rgba(255,255,255,0.09);
+    --text:#ffffff;
+    --gray:#9d9d9d;
+    --green:#3ddc97;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:white;
+    overflow-x:hidden;
+    padding-bottom:100px;
+}
+
+/* BACKGROUND */
+
+.bg-animation{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:-2;
+}
+
+.gold-glow{
+    position:absolute;
+    width:600px;
+    height:600px;
+    background:radial-gradient(circle,var(--gold),transparent 70%);
+    filter:blur(120px);
+    opacity:.12;
+    animation:moveGlow 18s infinite alternate ease-in-out;
+}
+
+.gold-glow:nth-child(2){
+    right:-100px;
+    bottom:-100px;
+    animation-duration:25s;
+}
+
+@keyframes moveGlow{
+    0%{transform:translate(0,0);}
+    100%{transform:translate(120px,-80px);}
+}
+
+.money{
+    position:absolute;
+    top:-50px;
+    color:rgba(212,175,55,.13);
+    font-size:22px;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(120vh) rotate(360deg);
+    }
+}
+
+/* AUTH */
+
+#auth-screen{
+    position:fixed;
+    inset:0;
+    background:#050505;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:20px;
+}
+
+.auth-card{
+    width:100%;
+    max-width:420px;
+    background:linear-gradient(145deg,#111,#000);
+    border:1px solid rgba(212,175,55,.35);
+    border-radius:30px;
+    padding:35px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 50px rgba(212,175,55,.15);
+}
+
+.auth-title{
+    text-align:center;
+    font-size:2rem;
+    font-weight:800;
+    letter-spacing:3px;
+    margin-bottom:10px;
+}
+
+.auth-title span{
+    color:var(--gold);
+}
+
+.auth-sub{
+    text-align:center;
+    color:var(--gray);
+    font-size:13px;
+    margin-bottom:30px;
+}
+
+.auth-input{
+    width:100%;
+    background:#0f0f0f;
+    border:1px solid #222;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:15px;
+    color:white;
+    outline:none;
+}
+
+.auth-input:focus{
+    border-color:var(--gold);
+}
+
+.gold-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));
+    color:black;
+    font-weight:800;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.gold-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MAIN */
+
+#main-app{
+    display:none;
+}
+
+/* NAV */
+
+.top-nav{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    backdrop-filter:blur(20px);
+    background:rgba(0,0,0,.6);
+    border-bottom:1px solid rgba(255,255,255,.05);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 7%;
+}
+
+.logo{
+    font-size:1.5rem;
+    font-weight:800;
+    letter-spacing:4px;
+}
+
+.logo span{
+    color:var(--gold);
+}
+
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.lang-switch{
+    background:#111;
+    border:1px solid #222;
+    color:white;
+    border-radius:10px;
+    padding:8px 12px;
+    cursor:pointer;
+}
+
+.info-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(212,175,55,.4);
+    background:rgba(212,175,55,.1);
+    color:var(--gold);
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* PAGES */
+
+.page{
+    display:none;
+    padding:25px 7%;
+    animation:fade .4s ease;
+}
+
+.active-page{
+    display:block;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* BALANCE */
+
+.balance-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(145deg,#111,#060606);
+    border:1px solid rgba(212,175,55,.2);
+    border-radius:28px;
+    padding:30px;
+    margin-bottom:25px;
+    box-shadow:0 0 60px rgba(212,175,55,.08);
+}
+
+.balance-card::before{
+    content:'';
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:radial-gradient(circle,var(--gold),transparent 70%);
+    opacity:.08;
+    top:-150px;
+    right:-150px;
+}
+
+.balance-card h1{
+    font-size:3rem;
+    margin:10px 0;
+}
+
+.balance-card p{
+    color:var(--gray);
+}
+
+/* GRID */
+
+.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.small-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:18px;
+    backdrop-filter:blur(10px);
+}
+
+.small-card span{
+    color:var(--gray);
+    font-size:12px;
+}
+
+/* INFO */
+
+.info-section{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:25px;
+    margin-top:20px;
+    line-height:1.7;
+    backdrop-filter:blur(10px);
+}
+
+.info-section h3{
+    margin-bottom:15px;
+    color:var(--gold);
+}
+
+/* MARKET */
+
+.bot-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.bot-card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(145deg,#111,#090909);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:28px;
+    padding:25px;
+    transition:.4s;
+}
+
+.bot-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(212,175,55,.4);
+    box-shadow:0 0 40px rgba(212,175,55,.12);
+}
+
+.bot-icon{
+    width:80px;
+    height:80px;
+    border-radius:22px;
+    background:linear-gradient(145deg,#1a1a1a,#050505);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:18px;
+    border:1px solid rgba(212,175,55,.2);
+}
+
+.bot-icon svg{
+    width:40px;
+    height:40px;
+    fill:var(--gold);
+}
+
+.bot-name{
+    font-size:1.2rem;
+    font-weight:700;
+}
+
+.bot-desc{
+    margin-top:10px;
+    color:var(--gray);
+    font-size:13px;
+    line-height:1.6;
+}
+
+.bot-price{
+    margin-top:18px;
+    font-size:1.6rem;
+    color:var(--gold);
+    font-weight:800;
+}
+
+.daily-income{
+    margin-top:10px;
+    color:var(--green);
+    font-weight:700;
+}
+
+.buy-btn{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* WALLET */
+
+.wallet-buttons{
+    display:flex;
+    gap:15px;
+    margin-top:20px;
+}
+
+.wallet-buttons button{
+    flex:1;
+}
+
+/* NAVBAR */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:rgba(0,0,0,.92);
+    backdrop-filter:blur(20px);
+    border-top:1px solid rgba(255,255,255,.05);
+    display:flex;
+    justify-content:space-around;
+    padding:14px 0;
+    z-index:1000;
+}
+
+.nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    color:#777;
+    cursor:pointer;
+    transition:.3s;
+    font-size:11px;
+}
+
+.nav-item svg{
+    width:22px;
+    height:22px;
+    fill:#777;
+    transition:.3s;
+}
+
+.nav-item.active{
+    color:var(--gold);
+}
+
+.nav-item.active svg{
+    fill:var(--gold);
+}
+
+/* MODALS */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    padding:20px;
+}
+
+.modal-content{
+    width:100%;
+    max-width:520px;
+    max-height:90vh;
+    overflow:auto;
+    background:#0d0d0d;
+    border:1px solid rgba(212,175,55,.25);
+    border-radius:28px;
+    padding:30px;
+}
+
+.modal-content h2{
+    margin-bottom:15px;
+    color:var(--gold);
+}
+
+.modal-content p{
+    color:var(--gray);
+    line-height:1.7;
+    margin-bottom:15px;
+}
+
+.close-btn{
+    margin-top:20px;
+}
+
+.addr-box{
+    background:black;
+    border:1px dashed var(--gold);
+    padding:16px;
+    border-radius:15px;
+    margin:15px 0;
+    color:var(--gold);
+    word-break:break-all;
+    font-family:monospace;
+}
+
+.live-box{
+    margin-top:20px;
+    background:rgba(61,220,151,.06);
+    border:1px solid rgba(61,220,151,.15);
+    padding:16px;
+    border-radius:16px;
+    color:#90f1c4;
+    font-size:14px;
+}
+
+.deposit-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px;
+    margin-bottom:10px;
+    border-radius:16px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    cursor:pointer;
+    transition:.3s;
+}
+
+.deposit-item:hover{
+    border-color:rgba(212,175,55,.3);
+}
+
+@media(max-width:700px){
+
+.balance-card h1{
+    font-size:2.3rem;
+}
+
+.grid2{
+    grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg-animation">
+    <div class="gold-glow"></div>
+    <div class="gold-glow"></div>
+</div>
+
+<div id="money-container"></div>
+
+<!-- AUTH -->
+
+<div id="auth-screen">
+
+    <div class="auth-card">
+
+        <div class="auth-title">
+            AURE<span>UM</span>
+        </div>
+
+        <div class="auth-sub">
+            შექმენით თქვენი ელიტური ანგარიში
+        </div>
+
+        <input class="auth-input" placeholder="ელ-ფოსტა">
+        <input class="auth-input" type="password" placeholder="პაროლი">
+        <input class="auth-input" placeholder="ტელეფონის ნომერი">
+
+        <button class="gold-btn" onclick="startApp()">
+            რეგისტრაცია
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MAIN -->
+
+<div id="main-app">
+
+<nav class="top-nav">
+
+<div class="logo">
+AURE<span>UM</span>
+</div>
+
+<div class="nav-right">
+
+<select class="lang-switch">
+<option>🇬🇪 ქართული</option>
+<option>🇺🇸 English</option>
+</select>
+
+<button class="info-btn" onclick="openInfo()">?</button>
+
+</div>
+
+</nav>
+
+<!-- HOME -->
+
+<div class="page active-page" id="home">
+
+<div class="balance-card">
+
+<p>პორტფელის ღირებულება</p>
+
+<h1>0.00 GEL</h1>
+
+<p style="color:var(--gold);">
++0.00 GEL დღიური დარიცხვა
+</p>
+
+</div>
+
+<div class="grid2">
+
+<div class="small-card">
+<span>აქტიური ბოტები</span>
+<h2>0</h2>
+</div>
+
+<div class="small-card">
+<span>მინიმალური გატანა</span>
+<h2 style="color:var(--gold)">20 GEL</h2>
+</div>
+
+</div>
+
+<div class="info-section">
+
+<h3>🚀 როგორ მუშაობს სისტემა</h3>
+
+<p>
+AUREUM წარმოადგენს პრემიუმ ციფრული აქტივების პლატფორმას, სადაც მომხმარებლები ააქტიურებენ სპეციალურ AI ბოტებს და იღებენ ფიქსირებულ დღიურ შემოსავალს.
+</p>
+
+<p>
+თითოეული ბოტი მუშაობს 365 დღის განმავლობაში. მაგალითად, თუ მომხმარებელი შეიძენს Aureum V5-ს, იგი მიიღებს 11 GEL-ს ყოველდღიურად ერთი წლის განმავლობაში.
+</p>
+
+<p>
+სისტემა ავტომატურად ანახლებს სტატისტიკას, ბალანსს და აქტიურ ბოტებს. გადახდის დადასტურებას საშუალოდ სჭირდება 5-15 წუთი.
+</p>
+
+</div>
+
+<div class="live-box">
+🟢 New VIP member activated Aureum V8
+</div>
+
+</div>
+
+<!-- MARKET -->
+
+<div class="page" id="market">
+
+<h2 style="margin-bottom:25px;">
+საინვესტიციო მარკეტი
+</h2>
+
+<div class="bot-grid" id="bot-list"></div>
+
+</div>
+
+<!-- BOTS -->
+
+<div class="page" id="bots">
+
+<h2 style="margin-bottom:25px;">
+თქვენი აქტივები
+</h2>
+
+<div class="info-section">
+
+<h3>🔒 აქტიური ბოტები არ მოიძებნა</h3>
+
+<p>
+ბოტის შეძენის შემდეგ აქ გამოჩნდება თქვენი აქტიური შემოსავლის სისტემა.
+</p>
+
+</div>
+
+</div>
+
+<!-- WALLET -->
+
+<div class="page" id="wallet">
+
+<h2 style="margin-bottom:25px;">
+ფინანსური საფულე
+</h2>
+
+<div class="balance-card">
+
+<p>ხელმისაწვდომი თანხა</p>
+
+<h1>0.00 GEL</h1>
+
+<div class="wallet-buttons">
+
+<button class="gold-btn" onclick="openDeposit()">
+შეტანა
+</button>
+
+<button class="gold-btn" onclick="openWithdraw()">
+გატანა
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- NAV -->
+
+<nav class="bottom-nav">
+
+<div class="nav-item active" onclick="switchPage('home',this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/>
+</svg>
+
+<span>მთავარი</span>
+
+</div>
+
+<div class="nav-item" onclick="switchPage('market',this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M7 4h-2l-1 2v2h2l3.6 7.59-1.35 2.44C7.52 19.37 8.48 21 10 21h10v-2H10l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03L23 7H6.42l-.94-2z"/>
+</svg>
+
+<span>მარკეტი</span>
+
+</div>
+
+<div class="nav-item" onclick="switchPage('bots',this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M12 2a2 2 0 012 2v1h2a2 2 0 012 2v2h1a2 2 0 012 2v2a2 2 0 01-2 2h-1v2a2 2 0 01-2 2h-2v1a2 2 0 01-2 2h-2a2 2 0 01-2-2v-1H8a2 2 0 01-2-2v-2H5a2 2 0 01-2-2v-2a2 2 0 012-2h1V7a2 2 0 012-2h2V4a2 2 0 012-2h2z"/>
+</svg>
+
+<span>ბოტები</span>
+
+</div>
+
+<div class="nav-item" onclick="switchPage('wallet',this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M21 7H3a2 2 0 00-2 2v8a2 2 0 002 2h18a2 2 0 002-2V9a2 2 0 00-2-2zm0 10H3V9h18zm-4-6a2 2 0 110 4 2 2 0 010-4z"/>
+</svg>
+
+<span>საფულე</span>
+
+</div>
+
+</nav>
+
+</div>
+
+<!-- INFO MODAL -->
+
+<div class="modal" id="info-modal">
+
+<div class="modal-content">
+
+<h2>📘 AUREUM GUIDE</h2>
+
+<p>
+AUREUM არის პრემიუმ ციფრული აქტივების სისტემა.
+</p>
+
+<p>
+თითოეული ბოტი მუშაობს 365 დღის განმავლობაში.
+</p>
+
+<p>
+გადახდის დადასტურებას სჭირდება დაახლოებით 5-15 წუთი.
+</p>
+
+<button class="gold-btn close-btn" onclick="closeModals()">
+დახურვა
+</button>
+
+</div>
+
+</div>
+
+<!-- PAY MODAL -->
+
+<div class="modal" id="pay-modal">
+
+<div class="modal-content">
+
+<h2>💳 უსაფრთხო გადახდა</h2>
+
+<p>
+ბოტის გასააქტიურებლად გამოიყენეთ ქვემოთ მოცემული მისამართი:
+</p>
+
+<div class="addr-box">
+CcRDgqi5NYpQkmmodio8cyEUoaan3cpzoByrYnaM7fPt
+</div>
+
+<p>
+ეს კრიპტოს მისამართი არის <span style="color:var(--gold);font-weight:700;">Solana</span>
+</p>
+
+<p>
+ჩარიცხეთ მოცემულ მისამართზე თანხა
+</p>
+
+<p>
+ტრანზაქციის დადასტურებას სჭირდება 5-15 წუთი.
+</p>
+
+<button class="gold-btn close-btn" onclick="closeModals()">
+დასრულება
+</button>
+
+</div>
+
+</div>
+
+<!-- DEPOSIT MODAL -->
+
+<div class="modal" id="deposit-modal">
+
+<div class="modal-content">
+
+<h2>📦 აქტივაციის პაკეტები</h2>
+
+<p style="margin-bottom:20px;">
+აირჩიეთ სასურველი ბოტი
+</p>
+
+<div id="deposit-bot-list"></div>
+
+<button class="gold-btn close-btn" onclick="closeModals()">
+დახურვა
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* MONEY */
+
+for(let i=0;i<25;i++){
+
+let money=document.createElement('div');
+
+money.classList.add('money');
+
+money.innerHTML='💸';
+
+money.style.left=Math.random()*100+'%';
+
+money.style.animationDuration=(5+Math.random()*10)+'s';
+
+money.style.opacity=Math.random();
+
+money.style.fontSize=(14+Math.random()*25)+'px';
+
+document.getElementById('money-container').appendChild(money);
+
+}
+
+/* AUTH */
+
+window.onload=function(){
+
+if(localStorage.getItem('aureum_registered')==='true'){
+
+document.getElementById('auth-screen').style.display='none';
+
+document.getElementById('main-app').style.display='block';
+
+}
+
+}
+
+function startApp(){
+
+localStorage.setItem('aureum_registered','true');
+
+document.getElementById('auth-screen').style.display='none';
+
+document.getElementById('main-app').style.display='block';
+
+}
+
+/* BOTS */
+
+const bots=[
+
+{name:'Aureum V1',price:50,daily:1,total:365},
+
+{name:'Aureum V2',price:100,daily:2,total:730},
+
+{name:'Aureum V3',price:150,daily:3.2,total:1168},
+
+{name:'Aureum V4',price:300,daily:6.5,total:2372},
+
+{name:'Aureum V5',price:500,daily:11,total:4015},
+
+{name:'Aureum VIP',price:1670,daily:42,total:15330}
+
+];
+
+const botList=document.getElementById('bot-list');
+
+const depositList=document.getElementById('deposit-bot-list');
+
+bots.forEach(bot=>{
+
+botList.innerHTML+=`
+
+<div class="bot-card">
+
+<div class="bot-icon">
+
+<svg viewBox="0 0 24 24">
+<path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/>
+</svg>
+
+</div>
+
+<div class="bot-name">
+${bot.name}
+</div>
+
+<div class="bot-desc">
+ეს ბოტი მუშაობს 365 დღის განმავლობაში და ყოველდღიურად გამოიმუშავებს ${bot.daily} GEL-ს.
+საერთო პოტენციური შემოსავალი: ${bot.total} GEL.
+</div>
+
+<div class="daily-income">
++${bot.daily} GEL / დღე
+</div>
+
+<div class="bot-price">
+${bot.price} GEL
+</div>
+
+<button class="buy-btn" onclick="openPay()">
+ინვესტირება
+</button>
+
+</div>
+
+`;
+
+depositList.innerHTML+=`
+
+<div class="deposit-item" onclick="openPay()">
+
+<div>
+
+<div style="font-weight:700;">
+${bot.name}
+</div>
+
+<div style="font-size:13px;color:var(--gray);margin-top:4px;">
++${bot.daily} GEL / დღე
+</div>
+
+</div>
+
+<div style="color:var(--gold);font-weight:800;">
+${bot.price} GEL
+</div>
+
+</div>
+
+`;
+
+});
+
+/* NAVIGATION */
+
+function switchPage(id,el){
+
+document.querySelectorAll('.page').forEach(page=>{
+page.classList.remove('active-page');
+});
+
+document.getElementById(id).classList.add('active-page');
+
+document.querySelectorAll('.nav-item').forEach(item=>{
+item.classList.remove('active');
+});
+
+el.classList.add('active');
+
+}
+
+/* MODALS */
+
+function openInfo(){
+
+document.getElementById('info-modal').style.display='flex';
+
+}
+
+function openPay(){
+
+closeModals();
+
+document.getElementById('pay-modal').style.display='flex';
+
+}
+
+function openDeposit(){
+
+closeModals();
+
+document.getElementById('deposit-modal').style.display='flex';
+
+}
+
+function openWithdraw(){
+
+alert('მინიმალური გატანის ლიმიტია 20 GEL');
+
+}
+
+function closeModals(){
+
+document.querySelectorAll('.modal').forEach(modal=>{
+modal.style.display='none';
+});
+
+}
+
+<!-- ძველი FREE BOT SYSTEM მთლიანად წაშალე და ეს ჩასვი -->
+
+/* =========================
+   FREE BOT SYSTEM
+========================= */
+
+const FREE_BOT = {
+    name: 'Aureum FREE',
+    daily: 0.50,
+    totalDays: 365
+};
+
+/* STORAGE */
+
+if(!localStorage.getItem('free_bot_active')){
+    localStorage.setItem('free_bot_active','false');
+}
+
+if(!localStorage.getItem('free_bot_balance')){
+    localStorage.setItem('free_bot_balance','0');
+}
+
+if(!localStorage.getItem('free_bot_days')){
+    localStorage.setItem('free_bot_days','0');
+}
+
+/* FREE BOT CARD */
+
+const freeBotCard = `
+
+<div class="bot-card" id="free-bot-card">
+
+    <div class="bot-icon">
+
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/>
+        </svg>
+
+    </div>
+
+    <div class="bot-name">
+        Aureum FREE
+    </div>
+
+    <div class="bot-desc">
+        უფასო საცდელი ბოტი რომელიც გამოიმუშავებს 0.50 GEL-ს ყოველ 24 საათში.
+        მუშაობს 365 დღის განმავლობაში.
+    </div>
+
+    <div class="daily-income">
+        +0.50 GEL / დღე
+    </div>
+
+    <div class="bot-price">
+        FREE
+    </div>
+
+    <button class="buy-btn" id="free-buy-btn" onclick="activateFreeBot()">
+        ინვესტირება
+    </button>
+
+</div>
+
+`;
+
+botList.innerHTML = freeBotCard + botList.innerHTML;
+
+/* ACTIVATE */
+
+function activateFreeBot(){
+
+    localStorage.setItem('free_bot_active','true');
+
+    if(!localStorage.getItem('free_bot_start')){
+
+        localStorage.setItem('free_bot_start', Date.now());
+
+    }
+
+    if(!localStorage.getItem('free_bot_last_claim')){
+
+        localStorage.setItem('free_bot_last_claim', Date.now());
+
+    }
+
+    document.getElementById('free-buy-btn').innerText='შესყიდულია';
+
+    renderOwnedBot();
+
+}
+
+/* CHECK ACTIVE */
+
+if(localStorage.getItem('free_bot_active')==='true'){
+
+    const btn=document.getElementById('free-buy-btn');
+
+    if(btn){
+
+        btn.innerText='შესყიდულია';
+
+    }
+
+}
+
+/* CREATE MY BOT WINDOW */
+
+function renderOwnedBot(){
+
+    if(localStorage.getItem('free_bot_active')!=='true') return;
+
+    const botsPage=document.getElementById('bots');
+
+    const earned=parseFloat(localStorage.getItem('free_bot_balance')).toFixed(2);
+
+    const days=parseInt(localStorage.getItem('free_bot_days'));
+
+    const left=365-days;
+
+    const leftMoney=(left*0.50).toFixed(2);
+
+    botsPage.innerHTML=`
+
+    <h2 style="margin-bottom:25px;">
+        თქვენი აქტივები
+    </h2>
+
+    <div class="info-section">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:15px;
+        ">
+
+            <div>
+
+                <h3 style="margin-bottom:5px;">
+                    🚀 Aureum FREE
+                </h3>
+
+                <div style="color:var(--gray);font-size:13px;">
+                    აქტიური უფასო ბოტი
+                </div>
+
+            </div>
+
+            <div style="
+                color:var(--gold);
+                font-weight:800;
+                font-size:1.2rem;
+            ">
+                +0.50 GEL
+            </div>
+
+        </div>
+
+        <!-- ROCKET PROGRESS -->
+
+        <div style="
+            width:100%;
+            height:24px;
+            background:#111;
+            border-radius:30px;
+            overflow:hidden;
+            position:relative;
+            margin:25px 0;
+            border:1px solid rgba(255,255,255,.05);
+        ">
+
+            <div id="rocket-bar" style="
+                height:100%;
+                width:${(days/365)*100}%;
+                background:linear-gradient(90deg,var(--gold),#ffe082);
+                border-radius:30px;
+                position:relative;
+                transition:1s;
+            ">
+
+                <div style="
+                    position:absolute;
+                    right:5px;
+                    top:-8px;
+                    font-size:22px;
+                ">
+                    🚀
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- COUNTDOWN -->
+
+        <div style="
+            margin-top:25px;
+            padding:18px;
+            border-radius:18px;
+            background:rgba(212,175,55,.06);
+            border:1px solid rgba(212,175,55,.15);
+        ">
+
+            <div style="
+                color:var(--gray);
+                font-size:13px;
+                margin-bottom:10px;
+            ">
+                შემდეგი დარიცხვა:
+            </div>
+
+            <div id="countdown-timer" style="
+                font-size:2rem;
+                font-weight:800;
+                color:var(--gold);
+                letter-spacing:2px;
+            ">
+                24:00:00
+            </div>
+
+            <div style="
+                margin-top:10px;
+                color:var(--gray);
+                font-size:13px;
+            ">
+                ყოველ 24 საათში ავტომატურად ირიცხება +0.50 GEL
+            </div>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:15px;
+            margin-top:20px;
+        ">
+
+            <div class="small-card">
+
+                <span>გამომუშავებული</span>
+
+                <h2 style="
+                    margin-top:8px;
+                    color:var(--green);
+                ">
+                    ${earned} GEL
+                </h2>
+
+            </div>
+
+            <div class="small-card">
+
+                <span>დარჩენილი მოგება</span>
+
+                <h2 style="
+                    margin-top:8px;
+                    color:var(--gold);
+                ">
+                    ${leftMoney} GEL
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div style="
+            margin-top:20px;
+            color:var(--gray);
+            line-height:1.7;
+        ">
+
+            ბოტი ავტომატურად რიცხავს 0.50 GEL-ს ყოველ 24 საათში.
+            დარჩენილი დღეები:
+            <span style="color:white;">${left}</span>
+
+        </div>
+
+    </div>
+
+    `;
+
+}
+
+/* ADD MONEY EVERY 24 HOURS */
+
+function updateFreeBotIncome(){
+
+    if(localStorage.getItem('free_bot_active')!=='true') return;
+
+    let lastClaim=parseInt(localStorage.getItem('free_bot_last_claim'));
+
+    let now=Date.now();
+
+    let diff=now-lastClaim;
+
+    let fullDays=Math.floor(diff / (1000*60*60*24));
+
+    if(fullDays<=0) return;
+
+    let currentDays=parseInt(localStorage.getItem('free_bot_days'));
+
+    let balance=parseFloat(localStorage.getItem('free_bot_balance'));
+
+    for(let i=0;i<fullDays;i++){
+
+        if(currentDays>=365) break;
+
+        balance += 0.50;
+
+        currentDays++;
+
+    }
+
+    localStorage.setItem('free_bot_balance',balance.toFixed(2));
+
+    localStorage.setItem('free_bot_days',currentDays);
+
+    localStorage.setItem('free_bot_last_claim',now);
+
+}
+
+/* UPDATE BALANCE UI */
+
+function updateBalanceUI(){
+
+    const balance=parseFloat(localStorage.getItem('free_bot_balance') || 0).toFixed(2);
+
+    document.querySelectorAll('.balance-card h1').forEach(el=>{
+
+        el.innerText=balance+' GEL';
+
+    });
+
+}
+
+/* REAL COUNTDOWN */
+
+function startCountdown(){
+
+    if(localStorage.getItem('free_bot_active')!=='true') return;
+
+    setInterval(()=>{
+
+        const lastClaim=parseInt(localStorage.getItem('free_bot_last_claim'));
+
+        const nextClaim=lastClaim + (24 * 60 * 60 * 1000);
+
+        const now=Date.now();
+
+        let remaining=nextClaim-now;
+
+        if(remaining < 0){
+
+            remaining=0;
+
+        }
+
+        const hours=Math.floor(remaining / (1000*60*60));
+
+        const minutes=Math.floor((remaining % (1000*60*60)) / (1000*60));
+
+        const seconds=Math.floor((remaining % (1000*60)) / 1000);
+
+        const countdownText=
+        String(hours).padStart(2,'0') + ':' +
+        String(minutes).padStart(2,'0') + ':' +
+        String(seconds).padStart(2,'0');
+
+        const countdownEl=document.getElementById('countdown-timer');
+
+        if(countdownEl){
+
+            countdownEl.innerText=countdownText;
+
+        }
+
+        /* REAL PAYMENT */
+
+        if(now >= nextClaim){
+
+            updateFreeBotIncome();
+
+            updateBalanceUI();
+
+            renderOwnedBot();
+
+        }
+
+    },1000);
+
+}
+
+/* INIT */
+
+updateFreeBotIncome();
+
+updateBalanceUI();
+
+renderOwnedBot();
+
+startCountdown();
+</script>
+
+</body>
+</html>
